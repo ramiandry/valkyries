@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Explicit allow for major crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap
+Sitemap: https://valkyries.skylinengo.mg/sitemap.xml

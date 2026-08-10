@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Poste P1 — Valkyries Basketball Madagascar</title>
+<meta name="description" content="Players of the Valkyries basketball club by position.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0E1424">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+<link rel="apple-touch-icon" href="assets/logo.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --night:#0E1424;
+    --night-2:#141C30;
+    --steel:#5A6B8C;
+    --gold:#E0A82E;
+    --gold-soft:#F0C969;
+    --crimson:#C8462F;
+    --bone:#F2EDE3;
+    --bone-dim:#C9C3B6;
+    --line:rgba(242,237,227,.12);
+
+    --gold-border:#997327;
+    --badge-red:#581c20;
+    --badge-red-text:#e67e80;
+
+    --ff-impact:'Anton',sans-serif;
+    --ff-display:'Oswald',sans-serif;
+    --ff-body:'Manrope',system-ui,sans-serif;
+    --ff-data:'Space Grotesk',monospace;
+
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--night);
+    color:var(--bone);
+    font-family:var(--ff-body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-family:var(--ff-data);
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:inline-block;
+    margin-bottom:14px;
+  }
+  h1,h2,h3{font-family:var(--ff-display);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+  .impact{font-family:var(--ff-impact);font-weight:400;letter-spacing:.01em;text-transform:uppercase}
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  }
+
+  /* ============================ NAV ============================ */
+  header.nav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(14,20,36,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;gap:24px;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+  .brand .mark{width:34px;height:34px;flex:0 0 auto;object-fit:cover;border-radius:50%}
+  .brand b{font-family:var(--ff-impact);font-size:1.18rem;letter-spacing:.02em;line-height:1}
+  .brand small{display:block;font-family:var(--ff-data);font-size:.56rem;letter-spacing:.22em;color:var(--steel);text-transform:uppercase;margin-top:3px}
+  nav.links{margin-left:auto;display:flex;align-items:center;gap:26px}
+  nav.links a{font-family:var(--ff-display);font-weight:500;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-dim);transition:color .2s}
+  nav.links a:hover{color:var(--bone)}
+  .lang{display:flex;gap:2px;font-family:var(--ff-data);font-size:.7rem}
+  .lang button{background:none;border:0;color:var(--steel);cursor:pointer;padding:4px 6px;letter-spacing:.1em}
+  .lang button.on{color:var(--gold)}
+  .menu-toggle{display:none;background:none;border:0;color:var(--bone);cursor:pointer}
+  .btn{
+    font-family:var(--ff-display);font-weight:600;font-size:.82rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:11px 20px;border-radius:2px;cursor:pointer;border:0;
+    transition:transform .15s ease, box-shadow .2s ease, background .2s;
+  }
+  .btn-gold{background:var(--gold);color:var(--night);box-shadow:0 0 0 0 rgba(224,168,46,.5)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(224,168,46,.7)}
+
+  section{padding:10px ;position:relative}
+  .sec-head{max-width:720px;margin-bottom:48px}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.2rem);margin-top:6px}
+  .sec-head p{color:var(--bone-dim);margin-top:16px;font-size:1.05rem}
+
+  .back{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-data);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-bottom:28px;transition:color .2s}
+  .back:hover{color:var(--gold)}
+
+  /* ===================== ROSTER / POSTE GRID ===================== */
+  .roster{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start}
+  
+  .player-card{
+    position:relative;
+    background:var(--night-2);
+    border:1px solid #997327;
+    border-radius:4px;
+    padding:24px;
+    color:var(--bone);
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+    transition:transform .25s ease,border-color .25s ease;
+  }
+  .player-card:hover{transform:translateY(-6px);border-color:var(--gold)}
+  .card-header{display:flex;justify-content:space-between;align-items:flex-start}
+  .badge-post{
+    background:var(--badge-red);
+    color:var(--badge-red-text);
+    font-family:var(--ff-data);
+    font-size:.75rem;font-weight:700;letter-spacing:1.5px;
+    padding:4px 8px;border-radius:2px;text-transform:uppercase;
+  }
+  .player-number{
+    font-family:var(--ff-impact);
+    font-size:3.5rem;font-weight:400;color:var(--gold);
+    line-height:.8;opacity:.85;
+  }
+  .avatar-container{display:flex;justify-content:center;margin:20px 0 30px}
+  .avatar{
+    width:140px;height:140px;border-radius:50%;
+    background:#26334d;object-fit:cover;
+    border:2px solid var(--gold-border);
+  }
+  .player-info{border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:20px;margin-bottom:20px}
+  .player-name{font-family:var(--ff-display);font-weight:700;font-size:1.8rem;color:#fff;margin-bottom:4px}
+  .player-subtext{color:var(--steel);font-size:.9rem}
+  .section-title{
+    display:flex;align-items:center;gap:8px;
+    color:var(--gold);font-size:.85rem;font-weight:700;
+    letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;
+  }
+  .section-title svg{width:16px;height:16px;fill:currentColor}
+  .about-text{font-size:.92rem;line-height:1.5;color:var(--bone-dim);padding-bottom:10px}
+  .goals-list{list-style:none;margin-bottom:30px}
+  .goals-list li{position:relative;padding-left:16px;font-size:.92rem;color:var(--bone-dim);margin-bottom:8px}
+  .goals-list li::before{content:"•";position:absolute;left:0;color:var(--gold);font-weight:bold}
+  .btn-sponsor{
+    display:flex;justify-content:center;align-items:center;gap:10px;
+    width:100%;padding:14px;
+    background:var(--gold);color:#000;
+    font-family:var(--ff-display);font-weight:800;font-size:.9rem;
+    letter-spacing:1px;text-transform:uppercase;
+    border:none;border-radius:2px;cursor:pointer;
+    transition:background-color .2s ease,transform .1s ease;
+  }
+  .btn-sponsor:hover{background:var(--gold-soft)}
+  .btn-sponsor:active{transform:scale(.99)}
+  .empty{color:var(--bone-dim)}
+
+  /* ===================== FOOTER ===================== */
+  footer{background:var(--night-2);border-top:1px solid var(--line);padding:60px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:40px;align-items:start}
+  .foot-grid h5{font-family:var(--ff-display);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .foot-grid a,.foot-grid p{display:block;color:var(--bone-dim);font-size:.92rem;margin-bottom:10px;transition:color .2s}
+  .foot-grid a:hover{color:var(--gold)}
+  .foot-brand b{font-family:var(--ff-impact);font-size:1.5rem;display:block;margin-bottom:8px}
+  .foot-bottom{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-family:var(--ff-data);font-size:.72rem;color:var(--steel);letter-spacing:.04em}
+
+  @media (max-width:900px){
+    .roster{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    nav.links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--night-2);padding:20px 24px;border-bottom:1px solid var(--line);gap:18px;align-items:flex-start}
+    nav.links.open{display:flex}
+    .menu-toggle{display:block;margin-left:auto}
+    .roster,.foot-grid{grid-template-columns:1fr}
+    section{padding:60px 0}
+    body{font-size:16px}
+  }
+</style>
+</head>
+<body>
+<!-- ============================ NAV ============================ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Valkyries home">
+      <img class="mark" src="assets/logo.jpeg" alt="Valkyries logo">
+      <span><b>VALKYRIES</b><small data-i18n="brand_sub">Basketball · Antsirabe</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+    <nav class="links" id="navlinks">
+      <a href="index.html#club" data-i18n="nav_club">The Club</a>
+      <a href="index.html#roster" data-i18n="nav_roster">Sponsor a Player</a>
+      <a href="index.html#give" data-i18n="nav_give">Support</a>
+      <a href="index.html#news" data-i18n="nav_news">News</a>
+      <span class="lang" role="group" aria-label="Language">
+        <button id="lang-en" class="on" onclick="setLang('en')">EN</button>
+        <button id="lang-fr" onclick="setLang('fr')">FR</button>
+      </span>
+      <a href="index.html#give" class="btn btn-gold" data-i18n="nav_donate">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== POSTE ===================== -->
+<section id="poste">
+  <div class="wrap">
+    <a class="back" href="index.html#roster" data-i18n="poste_back">← Back to the team</a>
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="poste_eyebrow">Team by position</span>
+      <h2 id="poste-title">Post One</h2>
+      <p data-i18n="poste_p">The Valkyries playing this position — chosen for the court, fighting for their future.</p>
+    </div>
+    <div class="roster" id="poste-grid"><!-- players injected by JS --></div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>VALKYRIES</b>
+        <p data-i18n="foot_about">Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.</p>
+      </div>
+      <div>
+        <h5 data-i18n="foot_explore">Explore</h5>
+        <a href="index.html#club" data-i18n="nav_club">The Club</a>
+        <a href="index.html#roster" data-i18n="nav_roster">Sponsor a Player</a>
+        <a href="index.html#give" data-i18n="nav_give">Support</a>
+        <a href="index.html#news" data-i18n="nav_news">News</a>
+      </div>
+      <div>
+        <h5 data-i18n="foot_connect">Connect</h5>
+        <a href="https://www.facebook.com/SolidarityClub2021" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.skylinengo.mg" target="_blank" rel="noopener">Skyline NGO</a>
+        <p>Antsirabe, Vakinankaratra<br>Madagascar</p>
+      </div>
+      <div>
+        <h5 data-i18n="foot_poste">Posts</h5>
+        <a href="poste.html?poste=1" data-i18n="foot_pl1">Post One</a>
+        <a href="poste.html?poste=2" data-i18n="foot_pl2">Post Two</a>
+        <a href="poste.html?poste=3" data-i18n="foot_pl3">Post Three</a>
+        <a href="poste.html?poste=4" data-i18n="foot_pl4">Post Four</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Valkyries Basketball Association</span>
+      <span data-i18n="foot_made">A Skyline NGO program · Antsirabe, Madagascar</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Images for each position (photos in assets/poste/<n>/).
+   When you add/remove a photo, update the matching list below. */
+const POSTE_IMAGES = {
+  1: [
+    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg"
+  ],
+  2: [
+    "image.png",
+    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.56.jpeg"
+  ],
+  3: [
+    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.52.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.53 (1).jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.53.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg"
+  ],
+  4: [
+    "WhatsApp Image 2026-08-06 at 06.55.49.jpeg",
+    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg"
+  ]
+};
+
+const I18N = {
+  en:{
+    brand_sub:"Basketball · Antsirabe",
+    nav_club:"The Club", nav_roster:"Sponsor a Player", nav_give:"Support", nav_news:"News", nav_donate:"Donate",
+    poste_back:"← Back to the team",
+    poste_eyebrow:"Team by position",
+    poste_p:"The Valkyries playing this position — chosen for the court, fighting for their future.",
+    poste_player:"Player",
+    poste_lbl:"Post",
+    poste_words:["One","Two","Three","Four"],
+    about_lbl:"About Player",
+    about_txt:"Part of the Valkyries. Dedicated, disciplined and always ready to give the best.",
+    goals_lbl:"Goals",
+    goal1:"Improve skills and knowledge",
+    goal2:"Support the team and community",
+    goal3:"Become a professional player",
+    sponsor_btn:"Sponsor This Player",
+    foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
+    foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
+    foot_pl1:"Post One", foot_pl2:"Post Two", foot_pl3:"Post Three", foot_pl4:"Post Four"
+  },
+  fr:{
+    brand_sub:"Basketball · Antsirabe",
+    nav_club:"Le Club", nav_roster:"Parrainer une joueuse", nav_give:"Soutenir", nav_news:"Actus", nav_donate:"Faire un don",
+    poste_back:"← Retour à l'équipe",
+    poste_eyebrow:"L'équipe par poste",
+    poste_p:"Les Valkyries qui jouent à ce poste — choisies pour le terrain, déterminées pour leur avenir.",
+    poste_player:"Joueuse",
+    poste_lbl:"Poste",
+    poste_words:["Un","Deux","Trois","Quatre"],
+    about_lbl:"À propos de la joueuse",
+    about_txt:"Membre des Valkyries. Déterminée, disciplinée et toujours prête à donner le meilleur.",
+    goals_lbl:"Objectifs",
+    goal1:"Améliorer ses compétences et son savoir",
+    goal2:"Soutenir l'équipe et la communauté",
+    goal3:"Devenir une joueuse professionnelle",
+    sponsor_btn:"Parrainer cette joueuse",
+    foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
+    foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
+    foot_pl1:"Poste Un", foot_pl2:"Poste Deux", foot_pl3:"Poste Trois", foot_pl4:"Poste Quatre"
+  }
+};
+
+let LANG = "en";
+
+function langFromStorage(){
+  try{ return localStorage.getItem("valkyries_lang") || "en"; }catch(e){ return "en"; }
+}
+
+function setLang(lang){
+  LANG = lang;
+  try{ localStorage.setItem("valkyries_lang", lang); }catch(e){}
+  document.documentElement.lang = lang;
+  const d = I18N[lang];
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(d[key]!==undefined) el.innerHTML = d[key];
+  });
+  document.getElementById("lang-en").classList.toggle("on", lang==="en");
+  document.getElementById("lang-fr").classList.toggle("on", lang==="fr");
+  renderPoste(POSTE);
+}
+
+function posteFromUrl(){
+  const n = parseInt(new URLSearchParams(location.search).get("poste") || "1", 10);
+  return (n>=1 && n<=4) ? n : 1;
+}
+
+function renderPoste(n){
+  const files = POSTE_IMAGES[n] || [];
+  const d = I18N[LANG];
+  const name = d.poste_lbl + " " + d.poste_words[n - 1];
+  document.title = name + " — Valkyries Basketball Madagascar";
+  document.getElementById("poste-title").textContent = name;
+  const grid = document.getElementById("poste-grid");
+  if(!files.length){
+    grid.innerHTML = '<p class="empty">' + d.poste_player + ' …</p>';
+    return;
+  }
+  grid.innerHTML = files.map((f,i)=>{
+    const src = "assets/poste/" + n + "/" + encodeURIComponent(f);
+    const num = String(i + 1).padStart(2, "0");
+    return '<article class="player-card">' +
+      '<div class="card-header">' +
+        '<span class="badge-post">' + name + '</span>' +
+        '<span class="player-number">' + num + '</span>' +
+      '</div>' +
+      '<div class="avatar-container">' +
+        '<img class="avatar" src="' + src + '" alt="' + name + ' — ' + d.poste_player + ' ' + num + '" loading="lazy">' +
+      '</div>' +
+      '<div class="player-info">' +
+        '<h2 class="player-name">' + d.poste_player + ' ' + num + '</h2>' +
+        '<p class="player-subtext">' + name + ' · ' + d.poste_player + ' ' + num + '</p>' +
+      '</div>' +
+      '<section>' +
+        '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>' + d.about_lbl + '</h3>' +
+        '<p class="about-text">' + d.about_txt + '</p>' +
+      '</section>' +
+      '<section>' +
+        '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>' + d.goals_lbl + '</h3>' +
+        '<ul class="goals-list">' +
+          '<li>' + d.goal1 + '</li>' +
+          '<li>' + d.goal2 + '</li>' +
+          '<li>' + d.goal3 + '</li>' +
+        '</ul>' +
+      '</section>' +
+      '<button class="btn-sponsor" onclick="sponsorPlayer(' + n + ',' + num + ')">' + d.sponsor_btn + ' &rarr;</button>' +
+      '</article>';
+  }).join("");
+}
+
+const PAYPAL_EMAIL = "contact@skylinengo.mg";
+const DONATE_URL = "https://www.paypal.com/donate/?business=" + encodeURIComponent(PAYPAL_EMAIL) + "&currency_code=USD";
+
+function sponsorPlayer(poste, num){
+  const d = I18N[LANG];
+  const url = new URL(DONATE_URL);
+  url.searchParams.set("amount", "120");
+  url.searchParams.set("designation", "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + d.poste_player + " " + num);
+  url.searchParams.set("frequency", "yearly");
+  window.open(url.toString(), "_blank", "noopener");
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+const POSTE = posteFromUrl();
+setLang(langFromStorage());
+
+/* scroll-reveal */
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity=1; e.target.style.transform="none"; io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll("section .sec-head, .player-card").forEach(el=>{
+    el.style.opacity=0; el.style.transform="translateY(18px)"; el.style.transition="opacity .6s ease, transform .6s ease";
+    io.observe(el);
+  });
+}
+</script>
+</body>
+</html>

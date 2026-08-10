@@ -331,6 +331,9 @@
   .card .body .dream{font-size:.88rem;color:var(--bone-dim);min-height:42px;margin-bottom:18px;line-height:1.45}
   .card .sponsor{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
   .card .sponsor::after{content:"→";font-family:var(--ff-body)}
+  .card-link{display:block;color:inherit;text-decoration:none}
+  .card-link .card{height:100%}
+  .card .see{font-family:var(--ff-data);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:14px}
 
   /* ===================== GIVE TIERS ===================== */
   .give-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -859,12 +862,12 @@ function sponsor(name){ openDonate({amount:120, designation:"Sponsor "+name, fre
       Add or remove entries freely.
    ============================================================ */
 const PLAYERS = [
-  {name:"Player One",  num:4,  posEN:"Guard",   posFR:"Meneuse", dreamEN:"Wants to study and coach the next team.", dreamFR:"Rêve d'étudier et d'entraîner la prochaine équipe."},
-  {name:"Player Two",  num:7,  posEN:"Forward", posFR:"Ailière", dreamEN:"First in her family to finish secondary school.", dreamFR:"Première de sa famille à finir le lycée."},
-  {name:"Player Three",num:11, posEN:"Center",  posFR:"Pivot",   dreamEN:"Dreams of playing for Madagascar.", dreamFR:"Rêve de jouer pour Madagascar."},
-  {name:"Player Four", num:9,  posEN:"Guard",   posFR:"Meneuse", dreamEN:"Captain — keeps the team together.", dreamFR:"Capitaine — soude l'équipe."},
-  {name:"Player Five", num:14, posEN:"Forward", posFR:"Ailière", dreamEN:"Loves maths as much as the fast break.", dreamFR:"Aime les maths autant que la contre-attaque."},
-  {name:"Player Six",  num:23, posEN:"Center",  posFR:"Pivot",   dreamEN:"Tallest on the team, biggest smile.", dreamFR:"La plus grande, le plus beau sourire."},
+  {name:"Post One",  num:4,  poste:1, posEN:"Guard",   posFR:"Meneuse", dreamEN:"Wants to study and coach the next team.", dreamFR:"Rêve d'étudier et d'entraîner la prochaine équipe."},
+  {name:"Post Two",  num:7,  poste:2, posEN:"Forward", posFR:"Ailière", dreamEN:"First in her family to finish secondary school.", dreamFR:"Première de sa famille à finir le lycée."},
+  {name:"Post Three",num:11, poste:3, posEN:"Center",  posFR:"Pivot",   dreamEN:"Dreams of playing for Madagascar.", dreamFR:"Rêve de jouer pour Madagascar."},
+  {name:"Post Four", num:9,  poste:4, posEN:"Guard",   posFR:"Meneuse", dreamEN:"Captain — keeps the team together.", dreamFR:"Capitaine — soude l'équipe."},
+  {name:"Post Five", num:14, poste:1, sponsorOnly:true, posEN:"Forward", posFR:"Ailière", dreamEN:"Loves maths as much as the fast break.", dreamFR:"Aime les maths autant que la contre-attaque."},
+  {name:"Post Six",  num:23, poste:2, sponsorOnly:true, posEN:"Center",  posFR:"Pivot",   dreamEN:"Tallest on the team, biggest smile.", dreamFR:"La plus grande, le plus beau sourire."},
 ];
 
 /* ============================================================
@@ -915,7 +918,9 @@ const I18N = {
     vm_stat_you:"your country",
     vm_legend_others:"Other visitors",
     vm_legend_you:"You are here",
-    sponsor_btn:"Sponsor", num_label:"No."
+    sponsor_btn:"Sponsor", num_label:"No.",
+    poste_lbl:"Post",
+    poste_words:["One","Two","Three","Four"]
   },
   fr:{
     brand_sub:"Basketball · Antsirabe",
@@ -961,7 +966,9 @@ const I18N = {
     vm_stat_you:"votre pays",
     vm_legend_others:"Autres visiteurs",
     vm_legend_you:"Vous êtes ici",
-    sponsor_btn:"Parrainer", num_label:"No"
+    sponsor_btn:"Parrainer", num_label:"No",
+    poste_lbl:"Poste",
+    poste_words:["Un","Deux","Trois","Quatre"]
   }
 };
 
@@ -973,19 +980,27 @@ function renderPlayers(){
     const pos = LANG==="fr"?p.posFR:p.posEN;
     const dream = LANG==="fr"?p.dreamFR:p.dreamEN;
     const safe = p.name.replace(/"/g,"&quot;");
-    return `<article class="card">
-      <div class="photo">
-        <span class="pos">${pos}</span>
-        <span class="num">${p.num}</span>
-        <span class="silhouette" aria-hidden="true">●</span>
-      </div>
-      <div class="body">
-        <h3>${p.name}</h3>
-        <div class="meta">${d.num_label} ${p.num} · ${pos}</div>
-        <div class="dream">${dream}</div>
-        <button class="btn btn-gold sponsor" onclick="sponsor('${safe}')">${d.sponsor_btn}</button>
-      </div>
-    </article>`;
+    const posteLbl = d.poste_lbl;
+    const posteWord = d.poste_words[p.poste - 1];
+    const inner = `
+      <article class="card">
+        <div class="photo">
+          <span class="pos">${posteLbl} ${posteWord}</span>
+          <span class="num">${p.num}</span>
+          <span class="silhouette" aria-hidden="true">●</span>
+        </div>
+        <div class="body">
+          <h3>${p.name}</h3>
+          <div class="meta">${d.num_label} ${p.num} · ${pos}</div>
+          <div class="dream">${dream}</div>
+          ${p.sponsorOnly
+            ? `<button class="btn btn-gold sponsor" onclick="sponsor('${safe}')">${d.sponsor_btn}</button>`
+            : `<div class="see">${posteLbl} ${posteWord} →</div>`}
+        </div>
+      </article>`;
+    return p.sponsorOnly
+      ? inner
+      : `<a class="card-link" href="poste.html?poste=${p.poste}" aria-label="${p.name} — ${posteLbl} ${posteWord}">${inner}</a>`;
   }).join("");
   document.getElementById("roster-cards").innerHTML = html;
 }

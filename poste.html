@@ -150,10 +150,18 @@
     letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;
   }
   .section-title svg{width:16px;height:16px;fill:currentColor}
-  .about-text{font-size:.92rem;line-height:1.5;color:var(--bone-dim);padding-bottom:10px}
-  .goals-list{list-style:none;margin-bottom:30px}
-  .goals-list li{position:relative;padding-left:16px;font-size:.92rem;color:var(--bone-dim);margin-bottom:8px}
-  .goals-list li::before{content:"•";position:absolute;left:0;color:var(--gold);font-weight:bold}
+  .video-wrap{
+    position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden;
+    background:#000;margin-bottom:24px;
+  }
+  .player-video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+  .video-soon{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,var(--night) 0%,#1d273f 100%);
+    font-family:var(--ff-data);font-size:.68rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--steel);text-align:center;padding:0 14px;
+    pointer-events:none;
+  }
   .btn-sponsor{
     display:flex;justify-content:center;align-items:center;gap:10px;
     width:100%;padding:14px;
@@ -294,6 +302,17 @@ const POSTE_IMAGES = {
   ]
 };
 
+/* Match-clip videos for each position (clips in assets/poste/<n>/videos/).
+   List order matches the photo list above — entry i is that player's
+   clip. Leave an entry out (or the whole array short) and that card
+   shows the photo with a "video coming soon" placeholder instead. */
+const POSTE_VIDEOS = {
+  1: [],
+  2: [],
+  3: [],
+  4: []
+};
+
 const I18N = {
   en:{
     brand_sub:"Basketball · Antsirabe",
@@ -304,12 +323,8 @@ const I18N = {
     poste_player:"Player",
     poste_lbl:"Post",
     poste_words:["One","Two","Three","Four"],
-    about_lbl:"About Player",
-    about_txt:"Part of the Valkyries. Dedicated, disciplined and always ready to give the best.",
-    goals_lbl:"Goals",
-    goal1:"Improve skills and knowledge",
-    goal2:"Support the team and community",
-    goal3:"Become a professional player",
+    video_lbl:"Match Clip",
+    video_soon:"Video coming soon",
     sponsor_btn:"Sponsor This Player",
     foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
     foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
@@ -324,12 +339,8 @@ const I18N = {
     poste_player:"Joueuse",
     poste_lbl:"Poste",
     poste_words:["Un","Deux","Trois","Quatre"],
-    about_lbl:"À propos de la joueuse",
-    about_txt:"Membre des Valkyries. Déterminée, disciplinée et toujours prête à donner le meilleur.",
-    goals_lbl:"Objectifs",
-    goal1:"Améliorer ses compétences et son savoir",
-    goal2:"Soutenir l'équipe et la communauté",
-    goal3:"Devenir une joueuse professionnelle",
+    video_lbl:"Extrait vidéo",
+    video_soon:"Vidéo bientôt disponible",
     sponsor_btn:"Parrainer cette joueuse",
     foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
     foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
@@ -373,9 +384,15 @@ function renderPoste(n){
     grid.innerHTML = '<p class="empty">' + d.poste_player + ' …</p>';
     return;
   }
+  const videos = POSTE_VIDEOS[n] || [];
   grid.innerHTML = files.map((f,i)=>{
     const src = "assets/poste/" + n + "/" + encodeURIComponent(f);
     const num = String(i + 1).padStart(2, "0");
+    const clip = videos[i];
+    const videoBlock = clip
+      ? '<video class="player-video" src="assets/poste/' + n + '/videos/' + encodeURIComponent(clip) + '" poster="' + src + '" controls preload="none"></video>'
+      : '<video class="player-video" poster="' + src + '" controls preload="none"></video>' +
+        '<div class="video-soon">' + d.video_soon + '</div>';
     return '<article class="player-card">' +
       '<div class="card-header">' +
         '<span class="badge-post">' + name + '</span>' +
@@ -388,18 +405,8 @@ function renderPoste(n){
         '<h2 class="player-name">' + d.poste_player + ' ' + num + '</h2>' +
         '<p class="player-subtext">' + name + ' · ' + d.poste_player + ' ' + num + '</p>' +
       '</div>' +
-      '<section>' +
-        '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>' + d.about_lbl + '</h3>' +
-        '<p class="about-text">' + d.about_txt + '</p>' +
-      '</section>' +
-      '<section>' +
-        '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>' + d.goals_lbl + '</h3>' +
-        '<ul class="goals-list">' +
-          '<li>' + d.goal1 + '</li>' +
-          '<li>' + d.goal2 + '</li>' +
-          '<li>' + d.goal3 + '</li>' +
-        '</ul>' +
-      '</section>' +
+      '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' + d.video_lbl + '</h3>' +
+      '<div class="video-wrap">' + videoBlock + '</div>' +
       '<button class="btn-sponsor" onclick="sponsorPlayer(' + n + ',' + num + ')">' + d.sponsor_btn + ' &rarr;</button>' +
       '</article>';
   }).join("");

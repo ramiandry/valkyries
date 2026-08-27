@@ -276,29 +276,30 @@
    When you add/remove a photo, update the matching list below. */
 const POSTE_IMAGES = {
   1: [
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg"
+    {name:"Diary",       age:8,  file:"Diary_8_p1.jpeg"},
+    {name:"Fabrianah",   age:7,  file:"Fabrianah_7_p1.jpeg"},
+    {name:"Jessica",     age:11, file:"Jessica_11_p1.jpeg"},
+    {name:"Valimbavaka", age:10, file:"Valimbavaka_10_p1.jpeg"}
   ],
   2: [
-    "image.png",
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.56.jpeg"
+    {name:"Espérance", age:9,  file:"Espérance_9_p2.jpeg"},
+    {name:"Ismaëlla",  age:7,  file:"Ismaëlla_7_p2.jpeg"},
+    {name:"Mandresy",  age:13, file:"Mandresy_13_p2.jpeg"},
+    {name:"Tsiaro",    age:14, file:"Tsiaro_14_p2.jpeg"},
+    {name:"Vanessa",   age:12, file:"Vanessa_12_p2.jpeg"}
   ],
   3: [
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.52.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.53 (1).jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.53.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg"
+    {name:"Andjalina",  age:12, file:"Andjalina_12_p3.jpeg"},
+    {name:"Cynthia",    age:14, file:"Cynthia_14_p3.jpeg"},
+    {name:"Fabriannah", age:12, file:"Fabriannah_12_p3.jpeg"},
+    {name:"Herilanto",  age:11, file:"Herilanto_11_p3.jpeg"},
+    {name:"Israëlla",   age:10, file:"Israëlla_10_p3.jpeg"},
+    {name:"Mayah",      age:14, file:"Mayah_14_p3.jpeg"},
+    {name:"Tendry",     age:14, file:"Tendry_14_p3.jpeg"}
   ],
   4: [
-    "WhatsApp Image 2026-08-06 at 06.55.49.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg"
+    {name:"Nomenah",  age:14, file:"Nomenah_14_p4.jpeg"},
+    {name:"Tiavanah", age:14, file:"Tiavanah_14_p4.jpeg"}
   ]
 };
 
@@ -325,6 +326,7 @@ const I18N = {
     poste_words:["One","Two","Three","Four"],
     video_lbl:"Match Clip",
     video_soon:"Video coming soon",
+    age_suffix:" years old",
     sponsor_btn:"Sponsor This Player",
     foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
     foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
@@ -341,6 +343,7 @@ const I18N = {
     poste_words:["Un","Deux","Trois","Quatre"],
     video_lbl:"Extrait vidéo",
     video_soon:"Vidéo bientôt disponible",
+    age_suffix:" ans",
     sponsor_btn:"Parrainer cette joueuse",
     foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
     foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
@@ -386,8 +389,9 @@ function renderPoste(n){
   }
   const videos = POSTE_VIDEOS[n] || [];
   grid.innerHTML = files.map((f,i)=>{
-    const src = "assets/poste/" + n + "/" + encodeURIComponent(f);
+    const src = "assets/poste/" + n + "/" + encodeURIComponent(f.file);
     const num = String(i + 1).padStart(2, "0");
+    const safeName = f.name.replace(/'/g, "\\'");
     const clip = videos[i];
     const videoBlock = clip
       ? '<video class="player-video" src="assets/poste/' + n + '/videos/' + encodeURIComponent(clip) + '" poster="' + src + '" controls preload="none"></video>'
@@ -399,15 +403,15 @@ function renderPoste(n){
         '<span class="player-number">' + num + '</span>' +
       '</div>' +
       '<div class="avatar-container">' +
-        '<img class="avatar" src="' + src + '" alt="' + name + ' — ' + d.poste_player + ' ' + num + '" loading="lazy">' +
+        '<img class="avatar" src="' + src + '" alt="' + f.name + ' — ' + name + '" loading="lazy">' +
       '</div>' +
       '<div class="player-info">' +
-        '<h2 class="player-name">' + d.poste_player + ' ' + num + '</h2>' +
-        '<p class="player-subtext">' + name + ' · ' + d.poste_player + ' ' + num + '</p>' +
+        '<h2 class="player-name">' + f.name + '</h2>' +
+        '<p class="player-subtext">' + name + ' · ' + f.age + d.age_suffix + '</p>' +
       '</div>' +
       '<h3 class="section-title"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>' + d.video_lbl + '</h3>' +
       '<div class="video-wrap">' + videoBlock + '</div>' +
-      '<button class="btn-sponsor" onclick="sponsorPlayer(' + n + ',' + num + ')">' + d.sponsor_btn + ' &rarr;</button>' +
+      '<button class="btn-sponsor" onclick="sponsorPlayer(' + n + ',\'' + safeName + '\')">' + d.sponsor_btn + ' &rarr;</button>' +
       '</article>';
   }).join("");
 }
@@ -415,11 +419,11 @@ function renderPoste(n){
 const PAYPAL_EMAIL = "contact@skylinengo.mg";
 const DONATE_URL = "https://www.paypal.com/donate/?business=" + encodeURIComponent(PAYPAL_EMAIL) + "&currency_code=USD";
 
-function sponsorPlayer(poste, num){
+function sponsorPlayer(poste, playerName){
   const d = I18N[LANG];
   const url = new URL(DONATE_URL);
   url.searchParams.set("amount", "120");
-  url.searchParams.set("designation", "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + d.poste_player + " " + num);
+  url.searchParams.set("designation", "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName);
   url.searchParams.set("frequency", "yearly");
   window.open(url.toString(), "_blank", "noopener");
 }

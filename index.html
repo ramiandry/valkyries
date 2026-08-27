@@ -294,9 +294,12 @@
   .about-grid p{color:var(--bone-dim);margin-bottom:18px}
   .about-grid p strong{color:var(--bone);font-weight:700}
   .pillars{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .pillar{background:var(--night);padding:26px 22px}
+  .pillar-link{display:block;background:var(--night);transition:background .2s ease}
+  .pillar-link:hover{background:#1a2338}
+  .pillar{padding:26px 22px}
   .pillar .ic{font-family:var(--ff-data);color:var(--gold);font-size:.7rem;letter-spacing:.2em}
-  .pillar h4{font-family:var(--ff-display);font-weight:600;font-size:1.1rem;margin:10px 0 6px}
+  .pillar h4{font-family:var(--ff-display);font-weight:600;font-size:1.1rem;margin:10px 0 6px;transition:color .2s ease}
+  .pillar-link:hover h4{color:var(--gold)}
   .pillar p{font-size:.92rem;color:var(--steel);margin:0;line-height:1.5}
 
   /* ===================== STATS ===================== */
@@ -640,10 +643,10 @@
         <p data-i18n="club_p2">Every practice, jersey and away game is made possible by supporters around the world. Your gift goes straight to the court — and to the girls who live for it.</p>
       </div>
       <div class="pillars">
-        <div class="pillar"><div class="ic">01</div><h4 data-i18n="pil1_h">Play</h4><p data-i18n="pil1_p">Coaching, courts and gear for competitive girls' basketball.</p></div>
-        <div class="pillar"><div class="ic">02</div><h4 data-i18n="pil2_h">Learn</h4><p data-i18n="pil2_p">School support and life skills tied to staying on the team.</p></div>
-        <div class="pillar"><div class="ic">03</div><h4 data-i18n="pil3_h">Lead</h4><p data-i18n="pil3_p">Captaincy, mentoring and a voice on and off the court.</p></div>
-        <div class="pillar"><div class="ic">04</div><h4 data-i18n="pil4_h">Compete</h4><p data-i18n="pil4_p">Regional tournaments and a pathway toward national play.</p></div>
+        <a class="pillar-link" href="pillar.html?pillar=1"><div class="pillar"><div class="ic">01</div><h4 data-i18n="pil1_h">Play</h4><p data-i18n="pil1_p">Coaching, courts and gear for competitive girls' basketball.</p></div></a>
+        <a class="pillar-link" href="pillar.html?pillar=2"><div class="pillar"><div class="ic">02</div><h4 data-i18n="pil2_h">Learn</h4><p data-i18n="pil2_p">School support and life skills tied to staying on the team.</p></div></a>
+        <a class="pillar-link" href="pillar.html?pillar=3"><div class="pillar"><div class="ic">03</div><h4 data-i18n="pil3_h">Lead</h4><p data-i18n="pil3_p">Captaincy, mentoring and a voice on and off the court.</p></div></a>
+        <a class="pillar-link" href="pillar.html?pillar=4"><div class="pillar"><div class="ic">04</div><h4 data-i18n="pil4_h">Compete</h4><p data-i18n="pil4_p">Regional tournaments and a pathway toward national play.</p></div></a>
       </div>
     </div>
   </div>
@@ -984,29 +987,30 @@ let LANG = "en";
    autoplay carousel inside each roster card. */
 const POSTE_IMAGES = {
   1: [
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg"
+    {name:"Diary",       age:8,  file:"Diary_8_p1.jpeg"},
+    {name:"Fabrianah",   age:7,  file:"Fabrianah_7_p1.jpeg"},
+    {name:"Jessica",     age:11, file:"Jessica_11_p1.jpeg"},
+    {name:"Valimbavaka", age:10, file:"Valimbavaka_10_p1.jpeg"}
   ],
   2: [
-    "image.png",
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.56.jpeg"
+    {name:"Espérance", age:9,  file:"Espérance_9_p2.jpeg"},
+    {name:"Ismaëlla",  age:7,  file:"Ismaëlla_7_p2.jpeg"},
+    {name:"Mandresy",  age:13, file:"Mandresy_13_p2.jpeg"},
+    {name:"Tsiaro",    age:14, file:"Tsiaro_14_p2.jpeg"},
+    {name:"Vanessa",   age:12, file:"Vanessa_12_p2.jpeg"}
   ],
   3: [
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.51.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.52.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.53 (1).jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.53.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.54.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.55.jpeg"
+    {name:"Andjalina",  age:12, file:"Andjalina_12_p3.jpeg"},
+    {name:"Cynthia",    age:14, file:"Cynthia_14_p3.jpeg"},
+    {name:"Fabriannah", age:12, file:"Fabriannah_12_p3.jpeg"},
+    {name:"Herilanto",  age:11, file:"Herilanto_11_p3.jpeg"},
+    {name:"Israëlla",   age:10, file:"Israëlla_10_p3.jpeg"},
+    {name:"Mayah",      age:14, file:"Mayah_14_p3.jpeg"},
+    {name:"Tendry",     age:14, file:"Tendry_14_p3.jpeg"}
   ],
   4: [
-    "WhatsApp Image 2026-08-06 at 06.55.49.jpeg",
-    "WhatsApp Image 2026-08-06 at 06.55.50.jpeg"
+    {name:"Nomenah",  age:14, file:"Nomenah_14_p4.jpeg"},
+    {name:"Tiavanah", age:14, file:"Tiavanah_14_p4.jpeg"}
   ]
 };
 
@@ -1022,7 +1026,7 @@ function renderPlayers(){
     const posteWord = d.poste_words[p.poste - 1];
     const photos = POSTE_IMAGES[p.poste] || [];
     const slides = photos.map((f,i)=>
-      `<span class="cimg${i===0?" on":""}" style="background-image:url('assets/poste/${p.poste}/${encodeURIComponent(f)}')"></span>`
+      `<span class="cimg${i===0?" on":""}" style="background-image:url('assets/poste/${p.poste}/${encodeURIComponent(f.file)}')"></span>`
     ).join("");
     const inner = `
       <article class="card">

@@ -118,12 +118,6 @@
 <!-- Supabase JS SDK — real visitor counter backend -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <style>
-  /* ============================================================
-     CONFIG — EDIT THESE TWO LINES TO GO LIVE
-     Replace with your real payment link (PayPal.me, Stripe Payment
-     Link, GoFundMe, HelloAsso, etc.). The player name is appended
-     automatically when someone clicks "Sponsor".
-     ============================================================ */
   :root{
     /* palette — "Valkyrie": highland night + burnished gold + spear red */
     --night:#0E1424;
@@ -534,6 +528,19 @@
     .vm-stats .st .n{font-size:1.7rem}
   }
 
+
+  /* ===================== WISE PAYMENT MODAL ===================== */
+  .pay-modal{position:fixed;inset:0;z-index:1100;background:rgba(14,20,36,.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+  .pay-modal.open{display:flex}
+  .pay-box{position:relative;background:var(--night-2);border:1px solid var(--gold);border-radius:6px;max-width:400px;width:100%;padding:32px 28px 28px;text-align:center;max-height:100%;overflow-y:auto}
+  .pay-close{position:absolute;top:10px;right:10px;background:transparent;border:1px solid var(--line);color:var(--bone);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1}
+  .pay-close:hover{border-color:var(--gold);color:var(--gold)}
+  .pay-box h3{font-family:var(--ff-display);font-size:1.5rem;margin-bottom:8px}
+  .pay-for{font-family:var(--ff-data);font-size:.78rem;letter-spacing:.06em;color:var(--gold);margin-bottom:14px}
+  .pay-box p{font-size:.9rem;color:var(--bone-dim);margin-bottom:16px}
+  .pay-qr{width:100%;max-width:230px;margin:0 auto 18px;border-radius:6px;background:#fff}
+  .pay-open{display:block;width:100%;padding:14px;text-align:center}
+
   /* ===================== RESPONSIVE ===================== */
   @media (max-width:900px){
     .about-grid{grid-template-columns:1fr;gap:34px}
@@ -643,10 +650,10 @@
         <p data-i18n="club_p2">Every practice, jersey and away game is made possible by supporters around the world. Your gift goes straight to the court — and to the girls who live for it.</p>
       </div>
       <div class="pillars">
-        <a class="pillar-link" href="pillar.html?pillar=1"><div class="pillar"><div class="ic">01</div><h4 data-i18n="pil1_h">Play</h4><p data-i18n="pil1_p">Coaching, courts and gear for competitive girls' basketball.</p></div></a>
-        <a class="pillar-link" href="pillar.html?pillar=2"><div class="pillar"><div class="ic">02</div><h4 data-i18n="pil2_h">Learn</h4><p data-i18n="pil2_p">School support and life skills tied to staying on the team.</p></div></a>
-        <a class="pillar-link" href="pillar.html?pillar=3"><div class="pillar"><div class="ic">03</div><h4 data-i18n="pil3_h">Lead</h4><p data-i18n="pil3_p">Captaincy, mentoring and a voice on and off the court.</p></div></a>
-        <a class="pillar-link" href="pillar.html?pillar=4"><div class="pillar"><div class="ic">04</div><h4 data-i18n="pil4_h">Compete</h4><p data-i18n="pil4_p">Regional tournaments and a pathway toward national play.</p></div></a>
+        <a class="pillar-link" href="play.html"><div class="pillar"><div class="ic">01</div><h4 data-i18n="pil1_h">Play</h4><p data-i18n="pil1_p">Coaching, courts and gear for competitive girls' basketball.</p></div></a>
+        <a class="pillar-link" href="learn.html"><div class="pillar"><div class="ic">02</div><h4 data-i18n="pil2_h">Learn</h4><p data-i18n="pil2_p">School support and life skills tied to staying on the team.</p></div></a>
+        <a class="pillar-link" href="lead.html"><div class="pillar"><div class="ic">03</div><h4 data-i18n="pil3_h">Lead</h4><p data-i18n="pil3_p">Captaincy, mentoring and a voice on and off the court.</p></div></a>
+        <a class="pillar-link" href="compete.html"><div class="pillar"><div class="ic">04</div><h4 data-i18n="pil4_h">Compete</h4><p data-i18n="pil4_p">Regional tournaments and a pathway toward national play.</p></div></a>
       </div>
     </div>
   </div>
@@ -834,6 +841,18 @@
     </div>
   </div>
 </div>
+<!-- ===================== WISE PAYMENT MODAL ===================== -->
+<div class="pay-modal" id="pay-modal" role="dialog" aria-modal="true" aria-labelledby="pay-title">
+  <div class="pay-box">
+    <button class="pay-close" onclick="closePay()" aria-label="Close">×</button>
+    <h3 id="pay-title" data-i18n="pay_title">Pay with Wise</h3>
+    <div class="pay-for" id="pay-for"></div>
+    <p data-i18n="pay_scan">Scan the QR code with your phone, or open the Wise payment link.</p>
+    <img class="pay-qr" src="assets/qrcodewise.png" alt="Wise QR code">
+    <a class="btn btn-gold pay-open" id="pay-link" href="https://wise.com/pay/r/C51066m0OUKNbfE" target="_blank" rel="noopener" data-i18n="pay_open">Open Wise payment link</a>
+  </div>
+</div>
+
 <div class="vm-tooltip" id="vm-tooltip">
   <div class="tc"></div>
   <div class="tn"></div>
@@ -841,24 +860,23 @@
 
 <script>
 /* ============================================================
-   1) PAYMENT LINK  — replace the value below with your real link.
-      Examples:
-        PayPal.me      → "https://www.paypal.com/donate/?hosted_button_id=XXXX"
-        Stripe         → "https://buy.stripe.com/XXXX"
-        GoFundMe       → "https://www.gofundme.com/f/your-campaign"
-        HelloAsso      → "https://www.helloasso.com/associations/.../formulaires/1"
-      The chosen amount and player name are added to the link
-      automatically as ?amount= and &designation= so you can see
-      them on your payment dashboard.
+   1) PAYMENT — Wise. The QR code (assets/qrcodewise.png) and the
+      link below are shown in a modal; the chosen amount/player is
+      displayed as a reminder (the Wise request itself is fixed).
    ============================================================ */
-const PAYPAL_EMAIL = "contact@skylinengo.mg";
-const DONATE_URL = "https://www.paypal.com/donate/?business=" + encodeURIComponent(PAYPAL_EMAIL) + "&currency_code=USD";
+const WISE_URL = "https://wise.com/pay/r/C51066m0OUKNbfE";
 
 function openDonate(params){
-  const url = new URL(DONATE_URL);
-  Object.entries(params).forEach(([k,v])=>{ if(v) url.searchParams.set(k,v); });
-  window.open(url.toString(), "_blank", "noopener");
+  const d = I18N[LANG];
+  const parts = [];
+  if(params.designation) parts.push(params.designation);
+  if(params.amount) parts.push(d.pay_amount + " $" + params.amount);
+  document.getElementById("pay-for").textContent = parts.join(" · ");
+  document.getElementById("pay-modal").classList.add("open");
 }
+function closePay(){ document.getElementById("pay-modal").classList.remove("open"); }
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closePay(); });
+document.getElementById("pay-modal").addEventListener("click", e=>{ if(e.target.id==="pay-modal") closePay(); });
 function give(amount){ openDonate({amount, designation:"Valkyries club fund"}); }
 function giveCustom(){
   const v = parseInt(document.getElementById("custom-amt").value,10);
@@ -927,6 +945,7 @@ const I18N = {
     vm_legend_others:"Other visitors",
     vm_legend_you:"You are here",
     sponsor_btn:"Sponsor",
+    pay_title:"Pay with Wise", pay_scan:"Scan the QR code with your phone, or open the Wise payment link. Confirm the amount on the Wise page.", pay_open:"Open Wise payment link", pay_amount:"Suggested amount:",
     poste_lbl:"Post",
     poste_words:["One","Two","Three","Four"]
   },
@@ -975,6 +994,7 @@ const I18N = {
     vm_legend_others:"Autres visiteurs",
     vm_legend_you:"Vous êtes ici",
     sponsor_btn:"Parrainer",
+    pay_title:"Payer avec Wise", pay_scan:"Scannez le QR code avec votre téléphone, ou ouvrez le lien de paiement Wise. Confirmez le montant sur la page Wise.", pay_open:"Ouvrir le lien de paiement Wise", pay_amount:"Montant suggéré :",
     poste_lbl:"Poste",
     poste_words:["Un","Deux","Trois","Quatre"]
   }

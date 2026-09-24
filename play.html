@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Play — Valkyries Basketball Madagascar</title>
+<meta name="description" content="Coaches, courts and training clips — how the Valkyries play.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0E1424">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+<link rel="apple-touch-icon" href="assets/logo.jpeg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --night:#0E1424;
+    --night-2:#141C30;
+    --steel:#5A6B8C;
+    --gold:#E0A82E;
+    --gold-soft:#F0C969;
+    --crimson:#C8462F;
+    --bone:#F2EDE3;
+    --bone-dim:#C9C3B6;
+    --line:rgba(242,237,227,.12);
+
+    --gold-border:#997327;
+    --badge-red:#581c20;
+    --badge-red-text:#e67e80;
+
+    --ff-impact:'Anton',sans-serif;
+    --ff-display:'Oswald',sans-serif;
+    --ff-body:'Manrope',system-ui,sans-serif;
+    --ff-data:'Space Grotesk',monospace;
+
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--night);
+    color:var(--bone);
+    font-family:var(--ff-body);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-family:var(--ff-data);
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:inline-block;
+    margin-bottom:14px;
+  }
+  h1,h2,h3{font-family:var(--ff-display);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+  .impact{font-family:var(--ff-impact);font-weight:400;letter-spacing:.01em;text-transform:uppercase}
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  }
+
+  /* ============================ NAV ============================ */
+  header.nav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(14,20,36,.82);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;gap:24px;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+  .brand .mark{width:34px;height:34px;flex:0 0 auto;object-fit:cover;border-radius:50%}
+  .brand b{font-family:var(--ff-impact);font-size:1.18rem;letter-spacing:.02em;line-height:1}
+  .brand small{display:block;font-family:var(--ff-data);font-size:.56rem;letter-spacing:.22em;color:var(--steel);text-transform:uppercase;margin-top:3px}
+  nav.links{margin-left:auto;display:flex;align-items:center;gap:26px}
+  nav.links a{font-family:var(--ff-display);font-weight:500;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-dim);transition:color .2s}
+  nav.links a:hover{color:var(--bone)}
+  .lang{display:flex;gap:2px;font-family:var(--ff-data);font-size:.7rem}
+  .lang button{background:none;border:0;color:var(--steel);cursor:pointer;padding:4px 6px;letter-spacing:.1em}
+  .lang button.on{color:var(--gold)}
+  .menu-toggle{display:none;background:none;border:0;color:var(--bone);cursor:pointer}
+  .btn{
+    font-family:var(--ff-display);font-weight:600;font-size:.82rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:11px 20px;border-radius:2px;cursor:pointer;border:0;
+    transition:transform .15s ease, box-shadow .2s ease, background .2s;
+  }
+  .btn-gold{background:var(--gold);color:var(--night);box-shadow:0 0 0 0 rgba(224,168,46,.5)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(224,168,46,.7)}
+
+  section{padding:56px 0 88px;position:relative}
+  .sec-head{max-width:720px;margin-bottom:48px}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.2rem);margin-top:6px}
+  .sec-head p{color:var(--bone-dim);margin-top:16px;font-size:1.05rem}
+
+  .back{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff-data);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-bottom:28px;transition:color .2s}
+  .back:hover{color:var(--gold)}
+
+  /* ===================== MODULE GRID ===================== */
+  .module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start}
+  .module-card{
+    position:relative;background:var(--night-2);border:1px solid var(--gold-border);
+    border-radius:4px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.5);
+    transition:transform .25s ease,border-color .25s ease;
+  }
+  .module-card:hover{transform:translateY(-6px);border-color:var(--gold)}
+  .module-badge{
+    display:inline-block;background:var(--badge-red);color:var(--badge-red-text);
+    font-family:var(--ff-data);font-size:.68rem;font-weight:700;letter-spacing:1.2px;
+    padding:4px 8px;border-radius:2px;text-transform:uppercase;margin-bottom:12px;
+  }
+  .module-name{font-family:var(--ff-display);font-weight:700;font-size:1.22rem;color:#fff;margin-bottom:16px}
+  .media-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .media-cell{position:relative;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:#000}
+  .media-cell img,.media-cell video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+  .media-soon{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,var(--night) 0%,#1d273f 100%);
+    font-family:var(--ff-data);font-size:.58rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--steel);text-align:center;padding:0 8px;
+    pointer-events:none;
+  }
+  .media-label{
+    position:absolute;bottom:6px;left:7px;z-index:2;
+    font-family:var(--ff-data);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold);background:rgba(14,20,36,.72);padding:2px 6px;border-radius:2px;
+    pointer-events:none;
+  }
+
+  /* ===================== COMPETE FORMAT BLOCKS ===================== */
+  .format-block{margin-bottom:48px}
+  .format-block:last-child{margin-bottom:0}
+  .format-title{
+    display:flex;align-items:center;gap:16px;margin-bottom:22px;
+    font-family:var(--ff-impact);font-size:1.7rem;color:var(--gold);text-transform:uppercase;
+  }
+  .format-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .empty{color:var(--bone-dim)}
+
+  /* ===================== FOOTER ===================== */
+  footer{background:var(--night-2);border-top:1px solid var(--line);padding:60px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:40px;align-items:start}
+  .foot-grid h5{font-family:var(--ff-display);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+  .foot-grid a,.foot-grid p{display:block;color:var(--bone-dim);font-size:.92rem;margin-bottom:10px;transition:color .2s}
+  .foot-grid a:hover{color:var(--gold)}
+  .foot-brand b{font-family:var(--ff-impact);font-size:1.5rem;display:block;margin-bottom:8px}
+  .foot-bottom{border-top:1px solid var(--line);margin-top:44px;padding-top:24px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-family:var(--ff-data);font-size:.72rem;color:var(--steel);letter-spacing:.04em}
+
+  @media (max-width:900px){
+    .module-grid{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    nav.links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--night-2);padding:20px 24px;border-bottom:1px solid var(--line);gap:18px;align-items:flex-start}
+    nav.links.open{display:flex}
+    .menu-toggle{display:block;margin-left:auto}
+    .module-grid,.foot-grid{grid-template-columns:1fr}
+    .media-grid{grid-template-columns:1fr}
+    section{padding:44px 0 60px}
+    body{font-size:16px}
+  }
+</style>
+</head>
+<body>
+<!-- ============================ NAV ============================ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Valkyries home">
+      <img class="mark" src="assets/logo.jpeg" alt="Valkyries logo">
+      <span><b>VALKYRIES</b><small data-i18n="brand_sub">Basketball · Antsirabe</small></span>
+    </a>
+    <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+    <nav class="links" id="navlinks">
+      <a href="index.html#club" data-i18n="nav_club">The Club</a>
+      <a href="index.html#roster" data-i18n="nav_roster">Sponsor a Player</a>
+      <a href="index.html#give" data-i18n="nav_give">Support</a>
+      <a href="index.html#news" data-i18n="nav_news">News</a>
+      <span class="lang" role="group" aria-label="Language">
+        <button id="lang-en" class="on" onclick="setLang('en')">EN</button>
+        <button id="lang-fr" onclick="setLang('fr')">FR</button>
+      </span>
+      <a href="index.html#give" class="btn btn-gold" data-i18n="nav_donate">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== PILLAR ===================== -->
+<section id="pillar">
+  <div class="wrap">
+    <a class="back" href="index.html#club" data-i18n="pillar_back">← Back to the club</a>
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="pillar_eyebrow">The Club</span>
+      <h2 data-i18n="page_h">Play</h2>
+      <p data-i18n="page_p">Coaching, courts and gear for competitive girls' basketball.</p>
+    </div>
+    <!-- To add real media: replace a card's .media-soon block with
+         <img src="assets/pillars/play/FILE.jpg" alt=""> for the photo, and give the
+         <video> a src="assets/pillars/play/videos/FILE.mp4" (then delete its .media-soon). -->
+    <div class="module-grid">
+      <article class="module-card">
+        <span class="module-badge" data-i18n="c1_b"></span>
+        <h3 class="module-name" data-i18n="c1_n"></h3>
+        <div class="media-grid">
+          <div class="media-cell"><div class="media-soon" data-i18n="photo_soon"></div><span class="media-label" data-i18n="photo_lbl"></span></div>
+          <div class="media-cell"><video controls preload="none"></video><div class="media-soon" data-i18n="video_soon"></div><span class="media-label" data-i18n="video_lbl"></span></div>
+        </div>
+      </article>
+      <article class="module-card">
+        <span class="module-badge" data-i18n="c2_b"></span>
+        <h3 class="module-name" data-i18n="c2_n"></h3>
+        <div class="media-grid">
+          <div class="media-cell"><div class="media-soon" data-i18n="photo_soon"></div><span class="media-label" data-i18n="photo_lbl"></span></div>
+          <div class="media-cell"><video controls preload="none"></video><div class="media-soon" data-i18n="video_soon"></div><span class="media-label" data-i18n="video_lbl"></span></div>
+        </div>
+      </article>
+      <article class="module-card">
+        <span class="module-badge" data-i18n="c3_b"></span>
+        <h3 class="module-name" data-i18n="c3_n"></h3>
+        <div class="media-grid">
+          <div class="media-cell"><div class="media-soon" data-i18n="photo_soon"></div><span class="media-label" data-i18n="photo_lbl"></span></div>
+          <div class="media-cell"><video controls preload="none"></video><div class="media-soon" data-i18n="video_soon"></div><span class="media-label" data-i18n="video_lbl"></span></div>
+        </div>
+      </article>
+      <article class="module-card">
+        <span class="module-badge" data-i18n="c4_b"></span>
+        <h3 class="module-name" data-i18n="c4_n"></h3>
+        <div class="media-grid">
+          <div class="media-cell"><div class="media-soon" data-i18n="photo_soon"></div><span class="media-label" data-i18n="photo_lbl"></span></div>
+          <div class="media-cell"><video controls preload="none"></video><div class="media-soon" data-i18n="video_soon"></div><span class="media-label" data-i18n="video_lbl"></span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>VALKYRIES</b>
+        <p data-i18n="foot_about">Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.</p>
+      </div>
+      <div>
+        <h5 data-i18n="foot_explore">Explore</h5>
+        <a href="index.html#club" data-i18n="nav_club">The Club</a>
+        <a href="index.html#roster" data-i18n="nav_roster">Sponsor a Player</a>
+        <a href="index.html#give" data-i18n="nav_give">Support</a>
+        <a href="index.html#news" data-i18n="nav_news">News</a>
+      </div>
+      <div>
+        <h5 data-i18n="foot_connect">Connect</h5>
+        <a href="https://www.facebook.com/SolidarityClub2021" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.skylinengo.mg" target="_blank" rel="noopener">Skyline NGO</a>
+        <p>Antsirabe, Vakinankaratra<br>Madagascar</p>
+      </div>
+      <div>
+        <h5 data-i18n="foot_pillars">The Club</h5>
+        <a href="play.html" data-i18n="foot_pil1">Play</a>
+        <a href="learn.html" data-i18n="foot_pil2">Learn</a>
+        <a href="lead.html" data-i18n="foot_pil3">Lead</a>
+        <a href="compete.html" data-i18n="foot_pil4">Compete</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Valkyries Basketball Association</span>
+      <span data-i18n="foot_made">A Skyline NGO program · Antsirabe, Madagascar</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const I18N = {
+  "en": {
+    "brand_sub": "Basketball · Antsirabe",
+    "nav_club": "The Club",
+    "nav_roster": "Sponsor a Player",
+    "nav_give": "Support",
+    "nav_news": "News",
+    "nav_donate": "Donate",
+    "pillar_back": "← Back to the club",
+    "pillar_eyebrow": "The Club",
+    "photo_lbl": "Photo",
+    "video_lbl": "Video",
+    "photo_soon": "Photo coming soon",
+    "video_soon": "Video coming soon",
+    "foot_about": "Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
+    "foot_explore": "Explore",
+    "foot_connect": "Connect",
+    "foot_pillars": "The Club",
+    "foot_made": "A Skyline NGO program · Antsirabe, Madagascar",
+    "foot_pil1": "Play",
+    "foot_pil2": "Learn",
+    "foot_pil3": "Lead",
+    "foot_pil4": "Compete",
+    "fmt_lvl": "Level",
+    "page_h": "Play",
+    "page_p": "Coaching, courts and gear for competitive girls' basketball.",
+    "c1_b": "Coach",
+    "c1_n": "Coach NSAVA (Ndola)",
+    "c2_b": "Coach",
+    "c2_n": "Coach Toussaint",
+    "c3_b": "Training",
+    "c3_n": "Teaching clip",
+    "c4_b": "Facility",
+    "c4_n": "Training court"
+  },
+  "fr": {
+    "brand_sub": "Basketball · Antsirabe",
+    "nav_club": "Le Club",
+    "nav_roster": "Parrainer une joueuse",
+    "nav_give": "Soutenir",
+    "nav_news": "Actus",
+    "nav_donate": "Faire un don",
+    "pillar_back": "← Retour au club",
+    "pillar_eyebrow": "Le Club",
+    "photo_lbl": "Photo",
+    "video_lbl": "Vidéo",
+    "photo_soon": "Photo bientôt disponible",
+    "video_soon": "Vidéo bientôt disponible",
+    "foot_about": "Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
+    "foot_explore": "Explorer",
+    "foot_connect": "Nous suivre",
+    "foot_pillars": "Le Club",
+    "foot_made": "Un programme de l'ONG Skyline · Antsirabe, Madagascar",
+    "foot_pil1": "Jouer",
+    "foot_pil2": "Apprendre",
+    "foot_pil3": "Diriger",
+    "foot_pil4": "Concourir",
+    "fmt_lvl": "Niveau",
+    "page_h": "Jouer",
+    "page_p": "Entraînement, terrains et équipement pour un basket féminin compétitif.",
+    "c1_b": "Coach",
+    "c1_n": "Coach NSAVA (Ndola)",
+    "c2_b": "Coach",
+    "c2_n": "Coach Toussaint",
+    "c3_b": "Entraînement",
+    "c3_n": "Vidéo pédagogique",
+    "c4_b": "Installation",
+    "c4_n": "Terrain d'entraînement"
+  }
+};
+
+let LANG = "en";
+function langFromStorage(){
+  try{ return localStorage.getItem("valkyries_lang") || "en"; }catch(e){ return "en"; }
+}
+function setLang(lang){
+  LANG = lang;
+  try{ localStorage.setItem("valkyries_lang", lang); }catch(e){}
+  document.documentElement.lang = lang;
+  const d = I18N[lang];
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(d[key]!==undefined) el.innerHTML = d[key];
+  });
+  document.title = d.page_h + " — Valkyries Basketball Madagascar";
+  document.getElementById("lang-en").classList.toggle("on", lang==="en");
+  document.getElementById("lang-fr").classList.toggle("on", lang==="fr");
+}
+document.getElementById("year").textContent = new Date().getFullYear();
+setLang(langFromStorage());
+
+/* scroll-reveal */
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity=1; e.target.style.transform="none"; io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll("section .sec-head, .module-card").forEach(el=>{
+    el.style.opacity=0; el.style.transform="translateY(18px)"; el.style.transition="opacity .6s ease, transform .6s ease";
+    io.observe(el);
+  });
+}
+</script>
+</body>
+</html>

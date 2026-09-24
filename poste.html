@@ -175,6 +175,19 @@
   .btn-sponsor:active{transform:scale(.99)}
   .empty{color:var(--bone-dim)}
 
+
+  /* ===================== WISE PAYMENT MODAL ===================== */
+  .pay-modal{position:fixed;inset:0;z-index:1100;background:rgba(14,20,36,.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+  .pay-modal.open{display:flex}
+  .pay-box{position:relative;background:var(--night-2);border:1px solid var(--gold);border-radius:6px;max-width:400px;width:100%;padding:32px 28px 28px;text-align:center;max-height:100%;overflow-y:auto}
+  .pay-close{position:absolute;top:10px;right:10px;background:transparent;border:1px solid var(--line);color:var(--bone);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1}
+  .pay-close:hover{border-color:var(--gold);color:var(--gold)}
+  .pay-box h3{font-family:var(--ff-display);font-size:1.5rem;margin-bottom:8px}
+  .pay-for{font-family:var(--ff-data);font-size:.78rem;letter-spacing:.06em;color:var(--gold);margin-bottom:14px}
+  .pay-box p{font-size:.9rem;color:var(--bone-dim);margin-bottom:16px}
+  .pay-qr{width:100%;max-width:230px;margin:0 auto 18px;border-radius:6px;background:#fff}
+  .pay-open{display:block;width:100%;padding:14px;text-align:center}
+
   /* ===================== FOOTER ===================== */
   footer{background:var(--night-2);border-top:1px solid var(--line);padding:60px 0 30px}
   .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:40px;align-items:start}
@@ -271,6 +284,18 @@
   </div>
 </footer>
 
+<!-- ===================== WISE PAYMENT MODAL ===================== -->
+<div class="pay-modal" id="pay-modal" role="dialog" aria-modal="true" aria-labelledby="pay-title">
+  <div class="pay-box">
+    <button class="pay-close" onclick="closePay()" aria-label="Close">×</button>
+    <h3 id="pay-title" data-i18n="pay_title">Pay with Wise</h3>
+    <div class="pay-for" id="pay-for"></div>
+    <p data-i18n="pay_scan">Scan the QR code with your phone, or open the Wise payment link.</p>
+    <img class="pay-qr" src="assets/qrcodewise.png" alt="Wise QR code">
+    <a class="btn btn-gold pay-open" id="pay-link" href="https://wise.com/pay/r/C51066m0OUKNbfE" target="_blank" rel="noopener" data-i18n="pay_open">Open Wise payment link</a>
+  </div>
+</div>
+
 <script>
 /* Images for each position (photos in assets/poste/<n>/).
    When you add/remove a photo, update the matching list below. */
@@ -328,6 +353,7 @@ const I18N = {
     video_soon:"Video coming soon",
     age_suffix:" years old",
     sponsor_btn:"Sponsor This Player",
+    pay_title:"Pay with Wise", pay_scan:"Scan the QR code with your phone, or open the Wise payment link. Confirm the amount on the Wise page.", pay_open:"Open Wise payment link",
     foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
     foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
     foot_pl1:"Post One", foot_pl2:"Post Two", foot_pl3:"Post Three", foot_pl4:"Post Four"
@@ -345,6 +371,7 @@ const I18N = {
     video_soon:"Vidéo bientôt disponible",
     age_suffix:" ans",
     sponsor_btn:"Parrainer cette joueuse",
+    pay_title:"Payer avec Wise", pay_scan:"Scannez le QR code avec votre téléphone, ou ouvrez le lien de paiement Wise. Confirmez le montant sur la page Wise.", pay_open:"Ouvrir le lien de paiement Wise",
     foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
     foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
     foot_pl1:"Poste Un", foot_pl2:"Poste Deux", foot_pl3:"Poste Trois", foot_pl4:"Poste Quatre"
@@ -416,17 +443,17 @@ function renderPoste(n){
   }).join("");
 }
 
-const PAYPAL_EMAIL = "contact@skylinengo.mg";
-const DONATE_URL = "https://www.paypal.com/donate/?business=" + encodeURIComponent(PAYPAL_EMAIL) + "&currency_code=USD";
+const WISE_URL = "https://wise.com/pay/r/C51066m0OUKNbfE";
 
 function sponsorPlayer(poste, playerName){
   const d = I18N[LANG];
-  const url = new URL(DONATE_URL);
-  url.searchParams.set("amount", "120");
-  url.searchParams.set("designation", "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName);
-  url.searchParams.set("frequency", "yearly");
-  window.open(url.toString(), "_blank", "noopener");
+  document.getElementById("pay-for").textContent =
+    d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName;
+  document.getElementById("pay-modal").classList.add("open");
 }
+function closePay(){ document.getElementById("pay-modal").classList.remove("open"); }
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closePay(); });
+document.getElementById("pay-modal").addEventListener("click", e=>{ if(e.target.id==="pay-modal") closePay(); });
 
 document.getElementById("year").textContent = new Date().getFullYear();
 const POSTE = posteFromUrl();

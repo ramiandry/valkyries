@@ -705,10 +705,10 @@
         <button class="btn btn-gold" onclick="give(75)" data-i18n="t2_b">Give $75</button>
       </div>
       <div class="tier">
-        <div class="amt">$200</div>
+        <div class="amt">$100</div>
         <h4 data-i18n="t3_h">Take the team to a tournament</h4>
         <p data-i18n="t3_p">Travel, meals and entry for the Valkyries at a regional competition.</p>
-        <button class="btn btn-ghost" onclick="give(200)" data-i18n="t3_b">Give $200</button>
+        <button class="btn btn-ghost" onclick="give(100)" data-i18n="t3_b">Give $100</button>
       </div>
     </div>
     <div class="custom">
@@ -848,8 +848,8 @@
     <h3 id="pay-title" data-i18n="pay_title">Pay with Wise</h3>
     <div class="pay-for" id="pay-for"></div>
     <p data-i18n="pay_scan">Scan the QR code with your phone, or open the Wise payment link.</p>
-    <img class="pay-qr" src="assets/qrcodewise.png" alt="Wise QR code">
-    <a class="btn btn-gold pay-open" id="pay-link" href="https://wise.com/pay/r/C51066m0OUKNbfE" target="_blank" rel="noopener" data-i18n="pay_open">Open Wise payment link</a>
+    <img class="pay-qr" id="pay-qr" src="assets/qrcodewise_75.png" alt="Wise QR code">
+    <a class="btn btn-gold pay-open" id="pay-link" href="https://wise.com/pay/r/h2uAAc22Fh14ZkI" target="_blank" rel="noopener" data-i18n="pay_open">Open Wise payment link</a>
   </div>
 </div>
 
@@ -860,11 +860,15 @@
 
 <script>
 /* ============================================================
-   1) PAYMENT — Wise. The QR code (assets/qrcodewise.png) and the
+   1) PAYMENT — Wise. The QR code (assets/qrcodewise_75.png) and the
       link below are shown in a modal; the chosen amount/player is
       displayed as a reminder (the Wise request itself is fixed).
    ============================================================ */
-const WISE_URL = "https://wise.com/pay/r/C51066m0OUKNbfE";
+/* One Wise request (link + QR) per fixed amount; anything else uses the default. */
+const WISE_DEFAULT = {url:"https://wise.com/pay/r/h2uAAc22Fh14ZkI", qr:"assets/qrcodewise_75.png"};
+const WISE_BY_AMOUNT = {
+  100: {url:"https://wise.com/pay/r/PDxlmGuO-Rkfz9A", qr:"assets/qrcodewise_100.png"}
+};
 
 function openDonate(params){
   const d = I18N[LANG];
@@ -872,6 +876,9 @@ function openDonate(params){
   if(params.designation) parts.push(params.designation);
   if(params.amount) parts.push(d.pay_amount + " $" + params.amount);
   document.getElementById("pay-for").textContent = parts.join(" · ");
+  const w = WISE_BY_AMOUNT[params.amount] || WISE_DEFAULT;
+  document.getElementById("pay-link").href = w.url;
+  document.getElementById("pay-qr").src = w.qr;
   document.getElementById("pay-modal").classList.add("open");
 }
 function closePay(){ document.getElementById("pay-modal").classList.remove("open"); }
@@ -920,7 +927,7 @@ const I18N = {
     give_p:"Rather support the club than a single player? Pick an amount below — every gift funds equipment, coaching and travel for the Valkyries.",
     t1_h:"Game-day kit", t1_p:"A ball, water and a jersey number for one player on match day.", t1_b:"Give $25",
     t2_h:"A month on the team", t2_p:"Coaching, court time and transport for one player for a full month.", t2_b:"Give $75",
-    t3_h:"Take the team to a tournament", t3_p:"Travel, meals and entry for the Valkyries at a regional competition.", t3_b:"Give $200",
+    t3_h:"Take the team to a tournament", t3_p:"Travel, meals and entry for the Valkyries at a regional competition.", t3_b:"Give $100",
     custom_l:"Or choose your own amount (USD):", custom_b:"Donate now",
     news_eyebrow:"Court Report", news_h:"Latest from the Valkyries",
     n1_d:"July 2026 · Season", n1_h:"Regional competitions ahead", n1_p:"The Valkyries prepare for July regional tournaments — the biggest stage yet for the team. Sponsorships now fund the road to the games.",
@@ -969,7 +976,7 @@ const I18N = {
     give_p:"Vous préférez soutenir le club plutôt qu'une seule joueuse ? Choisissez un montant ci-dessous — chaque don finance l'équipement, l'entraînement et les déplacements des Valkyries.",
     t1_h:"Kit de match", t1_p:"Un ballon, de l'eau et un numéro de maillot pour une joueuse le jour du match.", t1_b:"Donner 25 $",
     t2_h:"Un mois dans l'équipe", t2_p:"Entraînement, temps de jeu et transport pour une joueuse pendant un mois entier.", t2_b:"Donner 75 $",
-    t3_h:"Emmener l'équipe en tournoi", t3_p:"Transport, repas et inscription des Valkyries à une compétition régionale.", t3_b:"Donner 200 $",
+    t3_h:"Emmener l'équipe en tournoi", t3_p:"Transport, repas et inscription des Valkyries à une compétition régionale.", t3_b:"Donner 100 $",
     custom_l:"Ou choisissez votre montant (USD) :", custom_b:"Faire un don",
     news_eyebrow:"Journal du terrain", news_h:"Les dernières des Valkyries",
     n1_d:"Juillet 2026 · Saison", n1_h:"Compétitions régionales à venir", n1_p:"Les Valkyries se préparent aux tournois régionaux de juillet — la plus grande scène pour l'équipe à ce jour. Les parrainages financent la route vers les matchs.",

@@ -175,18 +175,20 @@
   .btn-sponsor:active{transform:scale(.99)}
   .empty{color:var(--bone-dim)}
 
-
-  /* ===================== WISE PAYMENT MODAL ===================== */
-  .pay-modal{position:fixed;inset:0;z-index:1100;background:rgba(14,20,36,.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
-  .pay-modal.open{display:flex}
-  .pay-box{position:relative;background:var(--night-2);border:1px solid var(--gold);border-radius:6px;max-width:400px;width:100%;padding:32px 28px 28px;text-align:center;max-height:100%;overflow-y:auto}
-  .pay-close{position:absolute;top:10px;right:10px;background:transparent;border:1px solid var(--line);color:var(--bone);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1}
-  .pay-close:hover{border-color:var(--gold);color:var(--gold)}
-  .pay-box h3{font-family:var(--ff-display);font-size:1.5rem;margin-bottom:8px}
-  .pay-for{font-family:var(--ff-data);font-size:.78rem;letter-spacing:.06em;color:var(--gold);margin-bottom:14px}
-  .pay-box p{font-size:.9rem;color:var(--bone-dim);margin-bottom:16px}
-  .pay-qr{width:100%;max-width:230px;margin:0 auto 18px;border-radius:6px;background:#fff}
-  .pay-open{display:block;width:100%;padding:14px;text-align:center}
+  /* ===================== DONOR MODAL ===================== */
+  .donor-modal{position:fixed;inset:0;z-index:1100;background:rgba(14,20,36,.92);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+  .donor-modal.open{display:flex}
+  .donor-box{position:relative;background:var(--night-2);border:1px solid var(--gold);border-radius:6px;max-width:400px;width:100%;padding:32px 28px 28px;max-height:100%;overflow-y:auto}
+  .donor-close{position:absolute;top:10px;right:10px;background:transparent;border:1px solid var(--line);color:var(--bone);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1}
+  .donor-close:hover{border-color:var(--gold);color:var(--gold)}
+  .donor-box h3{font-family:var(--ff-display);font-size:1.4rem;margin-bottom:6px}
+  .donor-summary{font-family:var(--ff-data);font-size:.78rem;letter-spacing:.05em;color:var(--gold);margin-bottom:20px}
+  .donor-field{margin-bottom:14px;text-align:left}
+  .donor-field label{display:block;font-family:var(--ff-display);font-size:.82rem;color:var(--bone-dim);margin-bottom:6px}
+  .donor-field input{width:100%;font-family:var(--ff-body);background:var(--night);border:1px solid var(--line);color:var(--bone);padding:11px 12px;border-radius:2px;font-size:.95rem}
+  .donor-field input:focus{outline:none;border-color:var(--gold)}
+  .donor-error{color:var(--crimson);font-size:.82rem;margin-bottom:12px;min-height:1.2em}
+  .donor-submit{width:100%}
 
   /* ===================== FOOTER ===================== */
   footer{background:var(--night-2);border-top:1px solid var(--line);padding:60px 0 30px}
@@ -284,15 +286,22 @@
   </div>
 </footer>
 
-<!-- ===================== WISE PAYMENT MODAL ===================== -->
-<div class="pay-modal" id="pay-modal" role="dialog" aria-modal="true" aria-labelledby="pay-title">
-  <div class="pay-box">
-    <button class="pay-close" onclick="closePay()" aria-label="Close">×</button>
-    <h3 id="pay-title" data-i18n="pay_title">Pay with Wise</h3>
-    <div class="pay-for" id="pay-for"></div>
-    <p data-i18n="pay_scan">Scan the QR code with your phone, or open the Wise payment link.</p>
-    <img class="pay-qr" src="assets/qrcodewise_75.png" alt="Wise QR code">
-    <a class="btn btn-gold pay-open" id="pay-link" href="https://wise.com/pay/r/h2uAAc22Fh14ZkI" target="_blank" rel="noopener" data-i18n="pay_open">Open Wise payment link</a>
+<!-- ===================== DONOR MODAL ===================== -->
+<div class="donor-modal" id="donor-modal" role="dialog" aria-modal="true" aria-labelledby="donor-title">
+  <div class="donor-box">
+    <button class="donor-close" onclick="closeDonor()" aria-label="Close">×</button>
+    <h3 id="donor-title" data-i18n="donor_title">Almost there</h3>
+    <div class="donor-summary" id="donor-summary"></div>
+    <div class="donor-field">
+      <label for="donor-name" data-i18n="donor_name_l">Your name</label>
+      <input id="donor-name" type="text" autocomplete="name" required>
+    </div>
+    <div class="donor-field">
+      <label for="donor-email" data-i18n="donor_email_l">Email (optional)</label>
+      <input id="donor-email" type="email" autocomplete="email">
+    </div>
+    <div class="donor-error" id="donor-error"></div>
+    <button class="btn btn-gold donor-submit" id="donor-submit" onclick="submitDonor()" data-i18n="donor_submit">Continue to payment</button>
   </div>
 </div>
 
@@ -353,7 +362,9 @@ const I18N = {
     video_soon:"Video coming soon",
     age_suffix:" years old",
     sponsor_btn:"Sponsor This Player",
-    pay_title:"Pay with Wise", pay_scan:"Scan the QR code with your phone, or open the Wise payment link. Confirm the amount on the Wise page.", pay_open:"Open Wise payment link",
+    donor_title:"Almost there", donor_name_l:"Your name", donor_email_l:"Email (optional)",
+    donor_submit:"Continue to payment", donor_loading:"Preparing your payment…",
+    donor_name_required:"Please enter your name.", donor_error:"Something went wrong — please try again.",
     foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
     foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
     foot_pl1:"Post One", foot_pl2:"Post Two", foot_pl3:"Post Three", foot_pl4:"Post Four"
@@ -371,7 +382,9 @@ const I18N = {
     video_soon:"Vidéo bientôt disponible",
     age_suffix:" ans",
     sponsor_btn:"Parrainer cette joueuse",
-    pay_title:"Payer avec Wise", pay_scan:"Scannez le QR code avec votre téléphone, ou ouvrez le lien de paiement Wise. Confirmez le montant sur la page Wise.", pay_open:"Ouvrir le lien de paiement Wise",
+    donor_title:"Presque prêt", donor_name_l:"Votre nom", donor_email_l:"Email (facultatif)",
+    donor_submit:"Continuer vers le paiement", donor_loading:"Préparation du paiement…",
+    donor_name_required:"Veuillez indiquer votre nom.", donor_error:"Une erreur est survenue — veuillez réessayer.",
     foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
     foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
     foot_pl1:"Poste Un", foot_pl2:"Poste Deux", foot_pl3:"Poste Trois", foot_pl4:"Poste Quatre"
@@ -443,17 +456,81 @@ function renderPoste(n){
   }).join("");
 }
 
-const WISE_URL = "https://wise.com/pay/r/h2uAAc22Fh14ZkI";
+/* ============================================================
+   PAYMENT — Papi (papi.mg), via the same Supabase Edge Function
+   used on the homepage (supabase/functions/create-payment-link).
+   See index.html for the full explanation.
+   ============================================================ */
+const SUPABASE_URL = "https://shcluyfdwiqhrbzttxhk.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNoY2x1eWZkd2lxaHJienR0eGhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1NzYzNTksImV4cCI6MjA5OTE1MjM1OX0.7GWM3rRLIZPsxtmU7SXI7jSbNPYyiSEtYQcob3GwzrI";
+
+let donorContext = null;
 
 function sponsorPlayer(poste, playerName){
   const d = I18N[LANG];
-  document.getElementById("pay-for").textContent =
-    d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName;
-  document.getElementById("pay-modal").classList.add("open");
+  openDonor({
+    amountUsd: 120,
+    reference: "SPONSOR-" + Date.now() + "-" + Math.random().toString(36).slice(2,7),
+    description: "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName
+  });
 }
-function closePay(){ document.getElementById("pay-modal").classList.remove("open"); }
-document.addEventListener("keydown", e=>{ if(e.key==="Escape") closePay(); });
-document.getElementById("pay-modal").addEventListener("click", e=>{ if(e.target.id==="pay-modal") closePay(); });
+
+function openDonor(ctx){
+  donorContext = ctx;
+  const d = I18N[LANG];
+  document.getElementById("donor-summary").textContent = ctx.description + " · $" + ctx.amountUsd;
+  document.getElementById("donor-name").value = "";
+  document.getElementById("donor-email").value = "";
+  document.getElementById("donor-error").textContent = "";
+  const btn = document.getElementById("donor-submit");
+  btn.disabled = false;
+  btn.textContent = d.donor_submit;
+  document.getElementById("donor-modal").classList.add("open");
+  document.getElementById("donor-name").focus();
+}
+function closeDonor(){ document.getElementById("donor-modal").classList.remove("open"); }
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeDonor(); });
+document.getElementById("donor-modal").addEventListener("click", e=>{ if(e.target.id==="donor-modal") closeDonor(); });
+
+async function submitDonor(){
+  const d = I18N[LANG];
+  const name = document.getElementById("donor-name").value.trim();
+  const email = document.getElementById("donor-email").value.trim();
+  const errEl = document.getElementById("donor-error");
+  if(!name){ errEl.textContent = d.donor_name_required; return; }
+  errEl.textContent = "";
+  const btn = document.getElementById("donor-submit");
+  btn.disabled = true;
+  btn.textContent = d.donor_loading;
+
+  try{
+    const res = await fetch(SUPABASE_URL + "/functions/v1/create-payment-link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+      },
+      body: JSON.stringify({
+        amountUsd: donorContext.amountUsd,
+        clientName: name,
+        payerEmail: email || undefined,
+        reference: donorContext.reference,
+        description: donorContext.description,
+        successUrl: location.origin + "/merci.html",
+        failureUrl: location.origin + "/paiement-echoue.html"
+      })
+    });
+    const out = await res.json();
+    if(!res.ok || !out.paymentLink) throw new Error(out.error || "unknown error");
+    window.location.href = out.paymentLink;
+  }catch(err){
+    console.error("[Valkyries] payment link creation failed:", err);
+    errEl.textContent = d.donor_error;
+    btn.disabled = false;
+    btn.textContent = d.donor_submit;
+  }
+}
 
 document.getElementById("year").textContent = new Date().getFullYear();
 const POSTE = posteFromUrl();

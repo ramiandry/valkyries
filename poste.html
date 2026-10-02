@@ -293,6 +293,10 @@
     <h3 id="donor-title" data-i18n="donor_title">Almost there</h3>
     <div class="donor-summary" id="donor-summary"></div>
     <div class="donor-field">
+      <label for="donor-amount" data-i18n="donor_amount_l">Amount (USD)</label>
+      <input id="donor-amount" type="number" min="1" inputmode="numeric" required>
+    </div>
+    <div class="donor-field">
       <label for="donor-name" data-i18n="donor_name_l">Your name</label>
       <input id="donor-name" type="text" autocomplete="name" required>
     </div>
@@ -362,9 +366,9 @@ const I18N = {
     video_soon:"Video coming soon",
     age_suffix:" years old",
     sponsor_btn:"Sponsor This Player",
-    donor_title:"Almost there", donor_name_l:"Your name", donor_email_l:"Email (optional)",
+    donor_title:"Almost there", donor_amount_l:"Amount (USD)", donor_name_l:"Your name", donor_email_l:"Email (optional)",
     donor_submit:"Continue to payment", donor_loading:"Preparing your payment…",
-    donor_name_required:"Please enter your name.", donor_error:"Something went wrong — please try again.",
+    donor_amount_required:"Please enter an amount.", donor_name_required:"Please enter your name.", donor_error:"Something went wrong — please try again.",
     foot_about:"Valkyries Basketball Association — a women's basketball club in Antsirabe, Madagascar, powered by Skyline NGO.",
     foot_explore:"Explore", foot_connect:"Connect", foot_poste:"Posts", foot_made:"A Skyline NGO program · Antsirabe, Madagascar",
     foot_pl1:"Post One", foot_pl2:"Post Two", foot_pl3:"Post Three", foot_pl4:"Post Four"
@@ -382,9 +386,9 @@ const I18N = {
     video_soon:"Vidéo bientôt disponible",
     age_suffix:" ans",
     sponsor_btn:"Parrainer cette joueuse",
-    donor_title:"Presque prêt", donor_name_l:"Votre nom", donor_email_l:"Email (facultatif)",
+    donor_title:"Presque prêt", donor_amount_l:"Montant (USD)", donor_name_l:"Votre nom", donor_email_l:"Email (facultatif)",
     donor_submit:"Continuer vers le paiement", donor_loading:"Préparation du paiement…",
-    donor_name_required:"Veuillez indiquer votre nom.", donor_error:"Une erreur est survenue — veuillez réessayer.",
+    donor_amount_required:"Veuillez indiquer un montant.", donor_name_required:"Veuillez indiquer votre nom.", donor_error:"Une erreur est survenue — veuillez réessayer.",
     foot_about:"Valkyries Basketball Association — un club de basketball féminin à Antsirabe, Madagascar, porté par l'ONG Skyline.",
     foot_explore:"Explorer", foot_connect:"Nous suivre", foot_poste:"Postes", foot_made:"Un programme de l'ONG Skyline · Antsirabe, Madagascar",
     foot_pl1:"Poste Un", foot_pl2:"Poste Deux", foot_pl3:"Poste Trois", foot_pl4:"Poste Quatre"
@@ -469,7 +473,7 @@ let donorContext = null;
 function sponsorPlayer(poste, playerName){
   const d = I18N[LANG];
   openDonor({
-    amountUsd: 120,
+    amountUsd: 25,
     reference: "SPONSOR-" + Date.now() + "-" + Math.random().toString(36).slice(2,7),
     description: "Sponsor " + d.poste_lbl + " " + d.poste_words[poste - 1] + " — " + playerName
   });
@@ -478,7 +482,8 @@ function sponsorPlayer(poste, playerName){
 function openDonor(ctx){
   donorContext = ctx;
   const d = I18N[LANG];
-  document.getElementById("donor-summary").textContent = ctx.description + " · $" + ctx.amountUsd;
+  document.getElementById("donor-summary").textContent = ctx.description;
+  document.getElementById("donor-amount").value = ctx.amountUsd;
   document.getElementById("donor-name").value = "";
   document.getElementById("donor-email").value = "";
   document.getElementById("donor-error").textContent = "";
@@ -494,9 +499,11 @@ document.getElementById("donor-modal").addEventListener("click", e=>{ if(e.targe
 
 async function submitDonor(){
   const d = I18N[LANG];
+  const amountUsd = parseFloat(document.getElementById("donor-amount").value);
   const name = document.getElementById("donor-name").value.trim();
   const email = document.getElementById("donor-email").value.trim();
   const errEl = document.getElementById("donor-error");
+  if(!(amountUsd > 0)){ errEl.textContent = d.donor_amount_required; return; }
   if(!name){ errEl.textContent = d.donor_name_required; return; }
   errEl.textContent = "";
   const btn = document.getElementById("donor-submit");
@@ -512,7 +519,7 @@ async function submitDonor(){
         "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
       },
       body: JSON.stringify({
-        amountUsd: donorContext.amountUsd,
+        amountUsd,
         clientName: name,
         payerEmail: email || undefined,
         reference: donorContext.reference,
